@@ -71,24 +71,30 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const testimonialTrack = document.getElementById('testimonialTrack');
 const dotsContainer = document.getElementById('carouselDots');
 const testimonials = document.querySelectorAll('.testimonial-card');
+const previousTestimonialButton = document.getElementById('testimonialPrevious');
+const nextTestimonialButton = document.getElementById('testimonialNext');
+const carouselStatus = document.getElementById('carouselStatus');
 let currentIndex = 0;
 let autoSlideInterval;
 
 if (testimonialTrack && dotsContainer && testimonials.length) {
     // Create dots
     testimonials.forEach((_, index) => {
-        const dot = document.createElement('div');
+        const dot = document.createElement('button');
+        dot.type = 'button';
         dot.classList.add('carousel-dot');
-        if (index === 0) dot.classList.add('active');
+        dot.setAttribute('aria-label', `Show testimonial ${index + 1} of ${testimonials.length}`);
         dot.addEventListener('click', () => goToSlide(index));
         dotsContainer.appendChild(dot);
     });
 
     const dots = dotsContainer.querySelectorAll('.carousel-dot');
+    const carousel = testimonialTrack.closest('.testimonial-carousel');
 
     function goToSlide(index) {
-        currentIndex = index;
+        currentIndex = (index + testimonials.length) % testimonials.length;
         updateCarousel();
+        startAutoSlide();
     }
 
     function updateCarousel() {
@@ -97,7 +103,16 @@ if (testimonialTrack && dotsContainer && testimonials.length) {
 
         dots.forEach((dot, index) => {
             dot.classList.toggle('active', index === currentIndex);
+            dot.setAttribute('aria-pressed', String(index === currentIndex));
         });
+
+        testimonials.forEach((testimonial, index) => {
+            testimonial.setAttribute('aria-hidden', String(index !== currentIndex));
+        });
+
+        if (carouselStatus) {
+            carouselStatus.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(testimonials.length).padStart(2, '0')}`;
+        }
     }
 
     function nextSlide() {
@@ -105,9 +120,18 @@ if (testimonialTrack && dotsContainer && testimonials.length) {
         updateCarousel();
     }
 
+    function previousSlide() {
+        currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+        updateCarousel();
+    }
+
     function startAutoSlide() {
         stopAutoSlide();
-        autoSlideInterval = setInterval(nextSlide, 5000);
+        const isHovered = carousel && carousel.matches(':hover');
+        const hasFocus = carousel && carousel.contains(document.activeElement);
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !document.hidden && !isHovered && !hasFocus) {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
     }
 
     function stopAutoSlide() {
@@ -117,12 +141,40 @@ if (testimonialTrack && dotsContainer && testimonials.length) {
         }
     }
 
-    // Start auto-sliding
+    updateCarousel();
+
+    if (previousTestimonialButton) {
+        previousTestimonialButton.addEventListener('click', () => {
+            previousSlide();
+            startAutoSlide();
+        });
+    }
+
+    if (nextTestimonialButton) {
+        nextTestimonialButton.addEventListener('click', () => {
+            nextSlide();
+            startAutoSlide();
+        });
+    }
+
     startAutoSlide();
 
-    // Pause on hover
-    testimonialTrack.addEventListener('mouseenter', stopAutoSlide);
-    testimonialTrack.addEventListener('mouseleave', startAutoSlide);
+    if (carousel) {
+        carousel.addEventListener('mouseenter', stopAutoSlide);
+        carousel.addEventListener('mouseleave', startAutoSlide);
+        carousel.addEventListener('focusin', stopAutoSlide);
+        carousel.addEventListener('focusout', event => {
+            if (!carousel.contains(event.relatedTarget)) startAutoSlide();
+        });
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopAutoSlide();
+        } else {
+            startAutoSlide();
+        }
+    });
 }
 
 // ============================================
@@ -414,4 +466,3 @@ window.addEventListener('load', () => {
     });
   });
 })();
-
