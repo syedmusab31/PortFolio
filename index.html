@@ -247,32 +247,55 @@
     <!-- Testimonials -->
     <section class="testimonials" id="testimonials">
         <div class="container">
+            <p class="testimonial-eyebrow">Kind words</p>
             <h2 class="section-title center">What Clients Say</h2>
-            <div class="testimonial-carousel">
+            <p class="testimonial-intro">Building great websites starts with great collaboration. Here’s what it’s like to work together.</p>
+            <div class="testimonial-carousel" aria-label="Client testimonials">
                 <div class="testimonial-track" id="testimonialTrack">
-                    <div class="testimonial-card">
-                        <p class="testimonial-text">"Working with this developer was an absolute pleasure. The attention to detail and commitment to delivering a high-quality product was outstanding. Our website exceeded all expectations!"</p>
+                    <article class="testimonial-card" aria-label="Testimonial 1 of 3">
+                        <span class="testimonial-quote-mark" aria-hidden="true">“</span>
+                        <blockquote class="testimonial-text">Working with this developer was an absolute pleasure. The attention to detail and commitment to delivering a high-quality product was outstanding. Our website exceeded all expectations!</blockquote>
                         <div class="testimonial-author">
-                            <h4 class="author-name">Sarah Johnson</h4>
-                            <p class="author-role">CEO, TechStart Inc.</p>
+                            <span class="author-avatar" aria-hidden="true">SJ</span>
+                            <div>
+                                <h4 class="author-name">Sarah Johnson</h4>
+                                <p class="author-role">CEO, TechStart Inc.</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <p class="testimonial-text">"Incredible work! The project was completed on time and within budget. The communication throughout was excellent, and the final result was exactly what we needed for our business."</p>
+                    </article>
+                    <article class="testimonial-card" aria-label="Testimonial 2 of 3">
+                        <span class="testimonial-quote-mark" aria-hidden="true">“</span>
+                        <blockquote class="testimonial-text">Incredible work! The project was completed on time and within budget. The communication throughout was excellent, and the final result was exactly what we needed for our business.</blockquote>
                         <div class="testimonial-author">
-                            <h4 class="author-name">Michael Chen</h4>
-                            <p class="author-role">Founder, Digital Solutions</p>
+                            <span class="author-avatar" aria-hidden="true">MC</span>
+                            <div>
+                                <h4 class="author-name">Michael Chen</h4>
+                                <p class="author-role">Founder, Digital Solutions</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <p class="testimonial-text">"Professional, skilled, and easy to work with. They transformed our outdated website into a modern, responsive platform that our customers love. Highly recommended!"</p>
+                    </article>
+                    <article class="testimonial-card" aria-label="Testimonial 3 of 3">
+                        <span class="testimonial-quote-mark" aria-hidden="true">“</span>
+                        <blockquote class="testimonial-text">Professional, skilled, and easy to work with. They transformed our outdated website into a modern, responsive platform that our customers love. Highly recommended!</blockquote>
                         <div class="testimonial-author">
-                            <h4 class="author-name">Emily Rodriguez</h4>
-                            <p class="author-role">Marketing Director, GrowthCo</p>
+                            <span class="author-avatar" aria-hidden="true">ER</span>
+                            <div>
+                                <h4 class="author-name">Emily Rodriguez</h4>
+                                <p class="author-role">Marketing Director, GrowthCo</p>
+                            </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
-                <div class="carousel-dots" id="carouselDots"></div>
+                <div class="testimonial-controls">
+                    <button class="carousel-arrow" id="testimonialPrevious" type="button" aria-label="Previous testimonial">
+                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    </button>
+                    <div class="carousel-dots" id="carouselDots" role="group" aria-label="Choose a testimonial"></div>
+                    <button class="carousel-arrow" id="testimonialNext" type="button" aria-label="Next testimonial">
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <p class="carousel-status" id="carouselStatus" aria-live="polite" aria-atomic="true"></p>
             </div>
         </div>
     </section>
